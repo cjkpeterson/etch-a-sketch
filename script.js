@@ -1,7 +1,7 @@
 const container = document.querySelector(".container");
 const clearButton = document.querySelector("#clear");
-let height = 16;
-let width = 16;
+const resizeButton = document.querySelector("#resize");
+let pixels;
 
 let isMouseDown = false;
 
@@ -21,23 +21,38 @@ function colorCheck(e) {
     isMouseDown && color(e);
 }
 
-for (let i = 0; i < width; i++) {
-    let col = document.createElement("div");
-    col.classList.add("col");
-    for (let i = 0; i < height; i++) {
-        let pixel = document.createElement("div");
-        pixel.classList.add("pixel");
-        pixel.addEventListener("mousedown", color);
-        pixel.addEventListener("mouseenter", colorCheck);
-        col.appendChild(pixel);
+function makeGrid(size=16) {
+    for (let i = 0; i < size; i++) {
+        let col = document.createElement("div");
+        col.classList.add("col");
+        for (let i = 0; i < size; i++) {
+            let pixel = document.createElement("div");
+            pixel.classList.add("pixel");
+            pixel.addEventListener("mousedown", color);
+            pixel.addEventListener("mouseenter", colorCheck);
+            col.appendChild(pixel);
+        }
+        container.appendChild(col);
     }
-    container.appendChild(col);
+    pixels = document.querySelectorAll(".pixel");
 }
-
-const pixels = document.querySelectorAll(".pixel");
 
 function clear(e) {
     pixels.forEach(pix => pix.classList.remove("colored"));
 }
 
 clearButton.addEventListener("click", clear);
+
+function resize(e) {
+    clear(e);
+    container.replaceChildren();
+    let newSize = 0;
+    while (newSize < 1 || newSize > 100) {
+        newSize = parseInt(prompt("Enter the new number of pixels per side (between 1 and 100)", "16"));
+    }
+    makeGrid(newSize);
+}
+
+resizeButton.addEventListener("click", resize);
+
+makeGrid();

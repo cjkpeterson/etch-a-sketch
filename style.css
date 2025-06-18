@@ -25,13 +25,12 @@ body {
 
 /* default, or uncolored is white, so this comes first */
 .pixel {
-    background-color: white;
     border: 1px solid black;
     flex:auto;
+    user-select: none !important;
 }
 
-.colored {
-    background-color: black;
-    user-select: none;
-
+.blank {
+    background-color: white !important;
+    
 }

@@ -14,7 +14,9 @@ document.addEventListener("mouseup", () =>{
 });
 
 function color(e) {
-    e.target.classList.add("colored");
+    const pixel = e.target;
+    pixel.classList.remove("blank");
+    pixel.style.backgroundColor = "black";
 }
 
 function colorCheck(e) {
@@ -27,7 +29,7 @@ function makeGrid(size=16) {
         col.classList.add("col");
         for (let i = 0; i < size; i++) {
             let pixel = document.createElement("div");
-            pixel.classList.add("pixel");
+            pixel.classList.add("pixel", "blank");
             pixel.addEventListener("mousedown", color);
             pixel.addEventListener("mouseenter", colorCheck);
             col.appendChild(pixel);
@@ -38,7 +40,7 @@ function makeGrid(size=16) {
 }
 
 function clear(e) {
-    pixels.forEach(pix => pix.classList.remove("colored"));
+    pixels.forEach(pix => pix.classList.add("blank"));
 }
 
 clearButton.addEventListener("click", clear);

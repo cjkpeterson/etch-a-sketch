@@ -1,14 +1,24 @@
 .container {
     display: flex;
     flex-direction: row;
+    border: 1px solid black;
+    height: 800px;
+    width: 800px;
+    margin: auto;
 }
 
 .col {
     display:flex;
     flex-direction: column;
+    flex:auto;
 }
 
+.colored {
+    background-color: black;
+    user-select: none;
+
+}
 .pixel {
-    padding: 20px;
-    border: 2px solid black;
+    border: 1px solid black;
+    flex:auto;
 }

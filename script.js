@@ -2,10 +2,31 @@ const container = document.querySelector(".container");
 const clearButton = document.querySelector("#clear");
 const resizeButton = document.querySelector("#resize");
 const picker = document.querySelector("#colorPicker");
+const randomButton = document.querySelector("#random");
 
 let pixels;
 let isMouseDown = false;
+let isRandom = false;
 let currentColor = "black";
+
+function getRandomColor() {
+    let red = Math.random() * 255;
+    let green = Math.random() * 255;
+    let blue = Math.random() *255;
+    return `rgb(${red}, ${green}, ${blue})`;
+}
+
+function toggleRandom(e) {
+    isRandom ? isRandom = false : isRandom = true; //reverse the state of isRandom
+    randomButton.classList.toggle("active");
+}
+
+function offRandom(e) {
+    isRandom = false;
+    randomButton.classList.remove("active");
+}
+
+randomButton.addEventListener("click", toggleRandom);
 
 document.addEventListener("mousedown", () =>{
     isMouseDown = true;
@@ -24,7 +45,12 @@ picker.addEventListener("input", () => {
 function color(e) {
     const pixel = e.target;
     pixel.classList.remove("blank");
-    pixel.style.backgroundColor = currentColor;
+    if (isRandom) {
+        pixel.style.backgroundColor = getRandomColor();
+    }
+    else {
+        pixel.style.backgroundColor = currentColor;
+    }
 }
 
 function colorCheck(e) {
@@ -48,8 +74,9 @@ function makeGrid(size=16) {
 }
 
 function clear(e) {
-    picker.value = "black";
+    picker.value = "#000000";
     currentColor = "black";
+    offRandom(e); //Reset everything
     pixels.forEach(pix => pix.classList.add("blank"));
 }
 

@@ -1,9 +1,11 @@
 const container = document.querySelector(".container");
 const clearButton = document.querySelector("#clear");
 const resizeButton = document.querySelector("#resize");
-let pixels;
+const picker = document.querySelector("#colorPicker");
 
+let pixels;
 let isMouseDown = false;
+let currentColor = "black";
 
 document.addEventListener("mousedown", () =>{
     isMouseDown = true;
@@ -13,10 +15,16 @@ document.addEventListener("mouseup", () =>{
     isMouseDown = false;
 });
 
+picker.addEventListener("input", () => {
+  // HEX value like #ff0000
+  currentColor = picker.value;
+});
+
+
 function color(e) {
     const pixel = e.target;
     pixel.classList.remove("blank");
-    pixel.style.backgroundColor = "black";
+    pixel.style.backgroundColor = currentColor;
 }
 
 function colorCheck(e) {
@@ -40,6 +48,8 @@ function makeGrid(size=16) {
 }
 
 function clear(e) {
+    picker.value = "black";
+    currentColor = "black";
     pixels.forEach(pix => pix.classList.add("blank"));
 }
 

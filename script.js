@@ -9,12 +9,23 @@ let isMouseDown = false;
 let isRandom = false;
 let currentColor = "black";
 
-function getRandomColor() {
-    let red = Math.random() * 255;
-    let green = Math.random() * 255;
-    let blue = Math.random() *255;
+function getRandomColor(max=255) {
+    let red = Math.random() * max;
+    let green = Math.random() * max;
+    let blue = Math.random() * max;
     return `rgb(${red}, ${green}, ${blue})`;
 }
+
+//Add the 
+const spelt = ["R", "a", "n", "d", "o", "m", " ", "C", "o", "l", "o", "r", "s"];
+spelt.forEach(char => {
+    letter = document.createElement("span");
+    letter.style.color = getRandomColor(175); //Makes sure colors aren't too light
+    letter.style.fontWeight = "bold";
+    letter.textContent = char;
+    randomButton.appendChild(letter);
+})
+
 
 function toggleRandom(e) {
     isRandom ? isRandom = false : isRandom = true; //reverse the state of isRandom

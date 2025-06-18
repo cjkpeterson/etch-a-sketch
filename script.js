@@ -1,4 +1,5 @@
 const container = document.querySelector(".container");
+const clearButton = document.querySelector("#clear");
 let height = 16;
 let width = 16;
 
@@ -32,3 +33,11 @@ for (let i = 0; i < width; i++) {
     }
     container.appendChild(col);
 }
+
+const pixels = document.querySelectorAll(".pixel");
+
+function clear(e) {
+    pixels.forEach(pix => pix.classList.remove("colored"));
+}
+
+clearButton.addEventListener("click", clear);

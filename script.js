@@ -3,6 +3,8 @@ const clearButton = document.querySelector("#clear");
 const resizeButton = document.querySelector("#resize");
 const picker = document.querySelector("#colorPicker");
 const randomButton = document.querySelector("#random");
+const eraserButton = document.querySelector("#eraser");
+const togglers = document.querySelector("#togglers");
 
 let pixels;
 let isMouseDown = false;
@@ -16,7 +18,7 @@ function getRandomColor(max=255) {
     return `rgb(${red}, ${green}, ${blue})`;
 }
 
-//Add the 
+//Add the "Random Colors" with different colors
 const spelt = ["R", "a", "n", "d", "o", "m", " ", "C", "o", "l", "o", "r", "s"];
 spelt.forEach(char => {
     letter = document.createElement("span");
@@ -26,18 +28,29 @@ spelt.forEach(char => {
     randomButton.appendChild(letter);
 })
 
-
-function toggleRandom(e) {
-    isRandom ? isRandom = false : isRandom = true; //reverse the state of isRandom
-    randomButton.classList.toggle("active");
+function toggleOff() {
+    let togs = [...togglers.children];
+    togs.forEach(el => {
+        el.classList.remove("active");
+    });
 }
 
-function offRandom(e) {
-    isRandom = false;
-    randomButton.classList.remove("active");
+function toggleTarget(e) {
+    let targ = e.target.id;
+    if (!targ) {
+        targ = e.target.parentElement.id;
+    }
+    let el = document.getElementById(targ);
+    if (el.classList.contains("active")) { //If it's already active, remove it
+        el.classList.remove("active");
+    }
+    else {
+        toggleOff();
+        el.classList.add("active");
+    }
 }
 
-randomButton.addEventListener("click", toggleRandom);
+togglers.addEventListener("click", toggleTarget);
 
 document.addEventListener("mousedown", () =>{
     isMouseDown = true;
@@ -47,20 +60,26 @@ document.addEventListener("mouseup", () =>{
     isMouseDown = false;
 });
 
+//If the picker is interacted with
 picker.addEventListener("input", () => {
-  // HEX value like #ff0000
   currentColor = picker.value;
+  toggleOff();
 });
 
 
 function color(e) {
     const pixel = e.target;
-    pixel.classList.remove("blank");
-    if (isRandom) {
-        pixel.style.backgroundColor = getRandomColor();
+    if (eraserButton.classList.contains("active")) {
+        pixel.classList.add("blank");
     }
     else {
-        pixel.style.backgroundColor = currentColor;
+        pixel.classList.remove("blank");
+        if (randomButton.classList.contains("active")) {
+            pixel.style.backgroundColor = getRandomColor();
+        }
+        else {
+            pixel.style.backgroundColor = currentColor;
+        }
     }
 }
 
@@ -87,20 +106,22 @@ function makeGrid(size=16) {
 function clear(e) {
     picker.value = "#000000";
     currentColor = "black";
-    offRandom(e); //Reset everything
+    toggleOff(); //Reset everything
     pixels.forEach(pix => pix.classList.add("blank"));
 }
 
 clearButton.addEventListener("click", clear);
 
 function resize(e) {
-    clear(e);
-    container.replaceChildren();
     let newSize = 0;
     while (newSize < 1 || newSize > 100) {
         newSize = parseInt(prompt("Enter the new number of pixels per side (between 1 and 100)", "16"));
     }
-    makeGrid(newSize);
+    if (newSize) { //Make sure it's not NULL, which would mean the user hit cancel
+        clear(e);
+        container.replaceChildren();
+        makeGrid(newSize);
+    }
 }
 
 resizeButton.addEventListener("click", resize);

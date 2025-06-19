@@ -2,6 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgb(86, 212, 212);
 }
 
 .buttons {
@@ -32,14 +33,20 @@ body {
     /* This makes sure that even when pixels aren't "blank", they still aren't transparent */
 }
 
+.ungrid {
+    border: 0px;
+}
+
 .blank {
     background-color: rgb(255, 255, 255) !important;   
 }
-
-
 
 .toggle.active {
     background-color: darkgray;
     color: white;
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+footer {
+    margin-top: 15px;
 }

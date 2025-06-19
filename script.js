@@ -7,6 +7,7 @@ const eraserButton = document.querySelector("#eraser");
 const lightenButton = document.querySelector("#lightener");
 const darkenButton = document.querySelector("#darkener");
 const togglers = document.querySelector("#togglers");
+const gridCheck = document.querySelector("#gridCheck");
 
 let pixels;
 let isMouseDown = false;
@@ -20,7 +21,7 @@ function getRandomColor(max=255) {
     return `rgb(${red}, ${green}, ${blue})`;
 }
 
-//Add the "Random Colors" with different colors
+//Add the text "Random Colors" with different colors to randomButton
 const spelt = ["R", "a", "n", "d", "o", "m", " ", "C", "o", "l", "o", "r", "s"];
 spelt.forEach(char => {
     letter = document.createElement("span");
@@ -137,6 +138,22 @@ function makeGrid(size=16) {
     pixels = document.querySelectorAll(".pixel");
 }
 
+function checkGrid(e=null) {
+    if (gridCheck.checked) {
+        pixels.forEach(pixel => {
+            pixel.classList.remove("ungrid");
+        })
+    }
+    else {
+        //If it's unchecked, we want to add the "ungrid" classto each pixel, which will remove the grid lines
+        pixels.forEach(pixel => {
+            pixel.classList.add("ungrid");
+        })
+    }
+}
+
+gridCheck.addEventListener("change", checkGrid);
+
 function reset() {
     picker.value = "#000000";
     currentColor = "rgb(0, 0, 0)";
@@ -159,6 +176,7 @@ function resize(e) {
         reset();
         container.replaceChildren();
         makeGrid(newSize);
+        checkGrid(); //Need to see if we should remove the grid lines or not.
     }
 }
 

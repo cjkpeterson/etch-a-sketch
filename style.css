@@ -28,10 +28,12 @@ body {
     border: 1px solid black;
     flex:auto;
     user-select: none !important;
+    background-color: rgb(255, 255, 255);
+    /* This makes sure that even when pixels aren't "blank", they still aren't transparent */
 }
 
 .blank {
-    background-color: white !important;   
+    background-color: rgb(255, 255, 255) !important;   
 }
 
 
